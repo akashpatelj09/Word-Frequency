@@ -50,7 +50,7 @@ class task{
 
         //cout << words[i] << " " << freqs[i] << " " << words[j] << " " << freqs[j] << endl;
 
-        if(freqs[j] < freqs[i] || (freqs[i] == freqs[j] && words[i].compare(words[j]) < 0) ){
+        if(freqs[j] > freqs[i] || (freqs[i] == freqs[j] && words[i].compare(words[j]) < 0) ){
           //swap
           string temp_string;int temp_int;
           temp_string = words[i];
@@ -67,7 +67,7 @@ class task{
 
   void show(){
     int n = freqs.size();
-    for(int i=0;i<n;i++){
+    for(int i=0;i<5;i++){
       cout << freqs[i] << " " << words[i] << endl;
     }
   }
@@ -80,7 +80,7 @@ class task{
 
 };
 int main(){
-  freopen("input.txt","r",stdin);
+  //freopen("input.txt","r",stdin);
 
   char* input = (char*)calloc(1,sizeof(char));
   char c;int len;
@@ -91,7 +91,7 @@ int main(){
      len = strlen(input);
      input= (char*)realloc(input,len+1);
      if(isalpha(c))
-      *(input+len) = tolower(c);
+      *(input+len) = c;
      else
       *(input+len) = c;
      *(input+len+1) = '\0';
@@ -108,3 +108,4 @@ int main(){
 
   return 0;
 }
+

@@ -67,7 +67,7 @@ class task{
 
   void show(){
     int n = freqs.size();
-    for(int i=0;i<5;i++){
+    for(int i=0;i<n;i++){
       cout << freqs[i] << " " << words[i] << endl;
     }
   }

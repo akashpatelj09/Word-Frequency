@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+#include <typeinfo>
+#include <vector>
+using namespace std;
+class task{
+  private:
+    char* text;
+    std::map<string, int> freqMap;
+    vector<string> words;
+    vector<int> freqs;
+  public:
+    void setText(char* input){
+      text = input;
+    }
+    string getText(){
+      string str;
+      int len = strlen(text);
+      return str.assign(text, text + len);
+    }
+
+  void tokenize(){
+    char* token = strtok(text,",.;:\"!? -_\n\t*()@#=+\0");
+    while(token != NULL && strcmp(token,"1") != 0){
+    //cout << token << " " << typeid(token).name() << '\n';
+    string word(token);
+    map<string,int>::iterator found = freqMap.find(word);
+    if( found == freqMap.end()){
+      freqMap[word] = 1;
+    }else{
+      freqMap[word]++;
+    }
+    token = strtok(NULL, ",.;:\"!? -_\n\t*()@#=+");
+    }
+  }
+
+  void arrange(){
+    for(map<string, int>::iterator it=freqMap.begin(); it!=freqMap.end(); ++it){
+      words.push_back(it->first);
+      freqs.push_back(it->second);
+    }
+    //reverse(words.begin(), words.end());reverse(freqs.begin(), freqs.end());
+    int n = freqs.size();
+    for(int i=0;i<n;i++){
+      for(int j = i+1;j<n;j++){
+
+        //cout << words[i] << " " << freqs[i] << " " << words[j] << " " << freqs[j] << endl;
+
+        if(freqs[j] < freqs[i] || (freqs[i] == freqs[j] && words[i].compare(words[j]) < 0) ){
+          //swap
+          string temp_string;int temp_int;
+          temp_string = words[i];
+          words[i] = words[j];
+          words[j] = temp_string;
+
+          temp_int = freqs[i];
+          freqs[i] = freqs[j];
+          freqs[j] = temp_int;
+        }
+      }
+    }
+  }
+
+  void show(){
+    int n = freqs.size();
+    for(int i=0;i<n;i++){
+      cout << freqs[i] << " " << words[i] << endl;
+    }
+  }
+
+  void showMap(){
+    for(map<string, int>::iterator it = freqMap.begin();it != freqMap.end(); it++){
+      cout << it->first << " " << it->second << endl;
+    }
+  }
+
+};
+int main(){
+  freopen("input.txt","r",stdin);
+
+  char* input = (char*)calloc(1,sizeof(char));
+  char c;int len;
+
+  cout << "Hit 0 to finish your input : " << endl;
+  scanf("%c", &c);
+  while(c != '0'){
+     len = strlen(input);
+     input= (char*)realloc(input,len+1);
+     if(isalpha(c))
+      *(input+len) = tolower(c);
+     else
+      *(input+len) = c;
+     *(input+len+1) = '\0';
+     scanf("%c", &c);
+  }
+  task t1;
+  t1.setText(input);
+  //cout << t1.getText();
+  t1.tokenize();
+  //t1.showMap();
+  t1.arrange();
+  t1.show();
+
+
+  return 0;
+}
